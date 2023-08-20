@@ -27,11 +27,6 @@ X_test = pd.DataFrame(one_hot_enc.transform(X_test), columns=one_hot_enc.get_fea
 model = LGBMClassifier()
 model.fit(X_train, y_train)
 
-X_train.to_csv("../data/x_train.csv", index=False)
-X_test.to_csv("../data/x_test.csv", index=False)
-y_train.to_csv("../data/y_train.csv", index=False)
-y_test.to_csv("../data/y_test.csv", index=False)
-
 model_file_path = "../models/model.pkl"
 
 with open(model_file_path, "wb") as f:

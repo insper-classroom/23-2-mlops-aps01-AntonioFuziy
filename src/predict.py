@@ -1,18 +1,13 @@
 import pandas as pd
 
 model = pd.read_pickle("../models/model.pkl")
+one_hot_enc = pd.read_pickle("../models/ohe.pkl")
 df_predict = pd.read_csv("../data/bank_predict.csv")
 
-y_pred = model.predict(df_predict)
+X_test = pd.DataFrame(one_hot_enc.transform(df_predict), columns=one_hot_enc.get_feature_names_out())
 
-print(len(df_predict))
-print(len(y_pred))
+y_pred = model.predict(X_test)
 
-# df_predict["y_pred"] = y_pred
-# df_predict = df_predict['y_pred'].map({ 1: 'yes', 2: 'no'})
-
-# df_predict.to_csv("../data/bank_predict.csv", index=False)
-
-# df_predict = pd.read_csv("../data/bank_predict.csv")
-
-# print(df_predict["y_pred"])
+df_predict["y_pred"] = y_pred
+df_predict = df_predict['y_pred'].map({ 1: 'yes', 0: 'no'})
+df_predict.to_csv("../data/bank_result.csv", index=False)
